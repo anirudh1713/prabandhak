@@ -1,0 +1,15 @@
+schema: 'apps/api/src/**/query/*.graphql'
+generates:
+  apps/api/src/generated/resolvers.ts:
+    config:
+      typesPrefix: GQL
+      useIndexSignature: true
+    plugins:
+      - add:
+          content:
+            - '/* eslint-disable */'
+      - typescript
+      - typescript-resolvers
+    hooks:
+      afterOneFileWrite:
+        - prettier --write

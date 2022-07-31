@@ -9,6 +9,9 @@
     },
     "dev": {
       "cache": false
+    },
+    "generate": {
+      "outputs": ["apps/api/src/generated/**"]
     }
   }
 }

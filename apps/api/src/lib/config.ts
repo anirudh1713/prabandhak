@@ -1,3 +1,6 @@
 export const config = {
-  port: process.env.PORT || '3001',
+  env: {
+    port: process.env.PORT || '3001',
+    isProduction: process.env.NODE_ENV === 'production',
+  },
 };
