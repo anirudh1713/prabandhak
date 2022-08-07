@@ -6,7 +6,9 @@
     "apps/*"
   ],
   "scripts": {
+    "prebuild": "pnpm run generate",
     "build": "turbo run build",
+    "predev": "pnpm run generate",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "generate": "graphql-codegen",
@@ -16,6 +18,7 @@
     "@graphql-codegen/add": "^3.2.0",
     "@graphql-codegen/cli": "^2.11.3",
     "@graphql-codegen/typescript": "^2.7.2",
+    "@graphql-codegen/typescript-operations": "^2.5.2",
     "@graphql-codegen/typescript-resolvers": "^2.7.2",
     "prettier": "latest",
     "turbo": "latest"

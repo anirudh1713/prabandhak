@@ -7,6 +7,7 @@ importers:
       '@graphql-codegen/add': ^3.2.0
       '@graphql-codegen/cli': ^2.11.3
       '@graphql-codegen/typescript': ^2.7.2
+      '@graphql-codegen/typescript-operations': ^2.5.2
       '@graphql-codegen/typescript-resolvers': ^2.7.2
       prettier: latest
       turbo: latest
@@ -14,9 +15,10 @@ importers:
       '@graphql-codegen/add': 3.2.0
       '@graphql-codegen/cli': 2.11.3
       '@graphql-codegen/typescript': 2.7.2
+      '@graphql-codegen/typescript-operations': 2.5.2
       '@graphql-codegen/typescript-resolvers': 2.7.2
       prettier: 2.7.1
-      turbo: 1.4.0
+      turbo: 1.4.2
 
   apps/api:
     specifiers:
@@ -244,10 +246,10 @@ packages:
       graphql: '*'
     dependencies:
       '@babel/core': 7.18.6
-      '@babel/generator': 7.18.7
-      '@babel/parser': 7.18.8
+      '@babel/generator': 7.18.9
+      '@babel/parser': 7.18.9
       '@babel/runtime': 7.18.9
-      '@babel/traverse': 7.18.8
+      '@babel/traverse': 7.18.9
       '@babel/types': 7.18.9
       babel-preset-fbjs: 3.4.0_@babel+core@7.18.6
       chalk: 4.1.2
@@ -292,13 +294,13 @@ packages:
     dependencies:
       '@ampproject/remapping': 2.2.0
       '@babel/code-frame': 7.18.6
-      '@babel/generator': 7.18.7
-      '@babel/helper-compilation-targets': 7.18.6_@babel+core@7.18.6
+      '@babel/generator': 7.18.9
+      '@babel/helper-compilation-targets': 7.18.9_@babel+core@7.18.6
       '@babel/helper-module-transforms': 7.18.8
       '@babel/helpers': 7.18.6
-      '@babel/parser': 7.18.8
+      '@babel/parser': 7.18.9
       '@babel/template': 7.18.6
-      '@babel/traverse': 7.18.8
+      '@babel/traverse': 7.18.9
       '@babel/types': 7.18.9
       convert-source-map: 1.7.0
       debug: 4.3.4
@@ -332,19 +334,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.18.9
-    dev: true
-
-  /@babel/helper-compilation-targets/7.18.6_@babel+core@7.18.6:
-    resolution: {integrity: sha512-vFjbfhNCzqdeAtZflUFrG5YIFqGTqsctrtkZ1D/NB0mDW9TwW3GmmUepYY4G9wCET5rY5ugz4OGTcLd614IzQg==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/compat-data': 7.18.8
-      '@babel/core': 7.18.6
-      '@babel/helper-validator-option': 7.18.6
-      browserslist: 4.21.1
-      semver: 6.3.0
     dev: true
 
   /@babel/helper-compilation-targets/7.18.9_@babel+core@7.18.6:
@@ -429,13 +418,13 @@ packages:
     resolution: {integrity: sha512-che3jvZwIcZxrwh63VfnFTUzcAM9v/lznYkkRxIBGMPt1SudOKHAEec0SIRCfiuIzTcF7VGj/CaTT6gY4eWxvA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/helper-environment-visitor': 7.18.6
+      '@babel/helper-environment-visitor': 7.18.9
       '@babel/helper-module-imports': 7.18.6
       '@babel/helper-simple-access': 7.18.6
       '@babel/helper-split-export-declaration': 7.18.6
       '@babel/helper-validator-identifier': 7.18.6
       '@babel/template': 7.18.6
-      '@babel/traverse': 7.18.8
+      '@babel/traverse': 7.18.9
       '@babel/types': 7.18.9
     transitivePeerDependencies:
       - supports-color
@@ -507,7 +496,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 7.18.6
-      '@babel/traverse': 7.18.8
+      '@babel/traverse': 7.18.9
       '@babel/types': 7.18.9
     transitivePeerDependencies:
       - supports-color
@@ -1032,6 +1021,21 @@ packages:
       '@graphql-codegen/plugin-helpers': 2.6.1
       '@graphql-tools/utils': 8.9.0
       tslib: 2.4.0
+    dev: true
+
+  /@graphql-codegen/typescript-operations/2.5.2:
+    resolution: {integrity: sha512-iFZsdsF4380WrN2UQHfgLjrjyo9VFIsZuCaHe1OoC4fQQ+P3t/GfJ0aj0hc5hNwTNJZ3BzBLHSRgE6wqO4591A==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@graphql-codegen/plugin-helpers': 2.6.1
+      '@graphql-codegen/typescript': 2.7.2
+      '@graphql-codegen/visitor-plugin-common': 2.12.0
+      auto-bind: 4.0.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: true
 
   /@graphql-codegen/typescript-resolvers/2.7.2:
@@ -5835,137 +5839,137 @@ packages:
       typescript: 4.7.4
     dev: true
 
-  /turbo-android-arm64/1.4.0:
-    resolution: {integrity: sha512-k03ztiuVpRqFiXl452HUsDgns0KrDtKL+e19h3eVJZFlr0lXtMBAcjh6qkh9lSmBW99NGSESGbsdaL9cp6F/vw==}
+  /turbo-android-arm64/1.4.2:
+    resolution: {integrity: sha512-h6PorJ+muKDQE3wETwrkx3NpqypAxjIFLP3b8RQaAoNvxYa1JTSC71VMtYxMbwuDk58A1KGbXLDteR4by8Lqew==}
     cpu: [arm64]
     os: [android]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-darwin-64/1.4.0:
-    resolution: {integrity: sha512-uj6p1marrEIFBX1nv4+LRg4e1vTYXTsv2DUB0e/LeAf9G2dRzh/MtSwBWuUaFLCcDvMSsnOeComgEkKuYyeVfw==}
+  /turbo-darwin-64/1.4.2:
+    resolution: {integrity: sha512-HrXRwx+5FuKeR4r2ea2mWO5dImzxG7z987t4xZWytEWJ0gEujln1z1cjwotYU1l2pq8slJS8W3q9Qv3JRMrSkQ==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-darwin-arm64/1.4.0:
-    resolution: {integrity: sha512-O6xBDY3LUJVctQBkbPoHHDsUIhuJTdIgIY/w4ZPRgdv51fj6uBJRolj9lLx1jGioLqjUaj/sXIizlaPar6tm5A==}
+  /turbo-darwin-arm64/1.4.2:
+    resolution: {integrity: sha512-/qkMqq1hdbM/I0gchx08/ZZucgnQVp6gd03tHHYnyG20z8a39f38MbX7+I5aLRpa3pQzBk8RgNx0o7G1T+KvzA==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-freebsd-64/1.4.0:
-    resolution: {integrity: sha512-103LbqCHxDHCz0xmpWis5JHkti2Irlq7n7vAk43+Kkxrz8UqhbrSfe0qUhkYltvxQ/R5cKAOKmBT5eZCO85+Xw==}
+  /turbo-freebsd-64/1.4.2:
+    resolution: {integrity: sha512-bZcjR7GxpuE/0qz/aKg4gWDa+6eiuoV0cRnqCJ/rae14/iSmBt0MsMa+lUH5gZUFj581Dj8fQRoBeE+EOau5CA==}
     cpu: [x64]
     os: [freebsd]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-freebsd-arm64/1.4.0:
-    resolution: {integrity: sha512-Cf+TGpQTpogSd/SsGhz1uQMhNVYYT1GeGg9iJ99rjjzbdC1zjdmeCbgUwyUUx5wVVM832o5fWaCJai3My3PDDQ==}
+  /turbo-freebsd-arm64/1.4.2:
+    resolution: {integrity: sha512-dDx++7AELGAHuaMQjzNiKjSPu/xdDelUtRjWOzJWmwXzrgJlwNgQ93p+LYEA7LBWVZ8a32fpBE/VDait0alIJw==}
     cpu: [arm64]
     os: [freebsd]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-32/1.4.0:
-    resolution: {integrity: sha512-bJn78F+mH45g6xPFTdn7PLzixMuqugGz4Db9dPLijWQzeKzVz52qpN7WGUZwfPZtQOs0HUI8woH6eqAZMdT2ZA==}
+  /turbo-linux-32/1.4.2:
+    resolution: {integrity: sha512-AAxsEYhgv6x4UXwCoiRe+iL2pd+ArsJQDMgJGsJn+Tb09ca6+i1rTgdOTgcCSyvRwbXt0LYzqXN9zp6FwG6VHQ==}
     cpu: [ia32]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-64/1.4.0:
-    resolution: {integrity: sha512-1+WyeJ1CBOnXNQl+Qke4NWvy3Zymp0NoxmJcZAmVBhwqAqGyERypeDznMfFmFtpG99/ZhmT7xwilz3Bw3Eyukw==}
+  /turbo-linux-64/1.4.2:
+    resolution: {integrity: sha512-t7gGxp1ILmGwzymcf72Lw4Ca916Bi9j2C4xPnJ2CAqxMWQOJKCRvyOuUHC/uy1kFDjR2yszxMb+ZJL6P3nccfA==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-arm/1.4.0:
-    resolution: {integrity: sha512-9DEUP1pKWCwMDuriYCuTf+73oBIxTU4VLdkP89dtPoQVXW6mviES4gRXm8jAs6AOzzMI4DHgNKPxk7UKUvuExQ==}
+  /turbo-linux-arm/1.4.2:
+    resolution: {integrity: sha512-6Rri//bX3wPMa8D0sSie05Xuze+6jTUDt4qsKp+JoQVanUKkKmRaVDpyV4WuFfjDbC5iP4ocN20FeaXenMFxTA==}
     cpu: [arm]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-arm64/1.4.0:
-    resolution: {integrity: sha512-DUtBhN0+o4XULQ9hsnzp6nI4mycMH7PpjKtG2HdmiZIhSYipSKWIMZkvgJpnpVJoRarLe7PmcDJIBp2aXvw2xw==}
+  /turbo-linux-arm64/1.4.2:
+    resolution: {integrity: sha512-V7eBFUOrIvLvjrc81UE8C+NfqBRKADyKrrbKD9hMG5beE/piZZNGoHUwuEgLgsykCSfHjn1sQCidocVztuTMAw==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-mips64le/1.4.0:
-    resolution: {integrity: sha512-ZJcQvUgmCJ4TFosVL6hEmECP5ysSubF3wMOq5hkBxzRMBjL0djW+BK4aIXutBTpjAz9OyM10S4KeEGeGRS/e3Q==}
+  /turbo-linux-mips64le/1.4.2:
+    resolution: {integrity: sha512-C0JpzpwyvhW5ChWr6S7ulUd8a+1SBLe2mLBepTWaXTh/5+sFDU/AMwPNkhpfV5o0gEtz03UPm7Y4G6dqU3UCAQ==}
     cpu: [mipsel]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-ppc64le/1.4.0:
-    resolution: {integrity: sha512-sk/rOrcGnYRcwNP8yJwmeOOzInv7YzMfWBomVf/TwrpsGL8QrD05zjsMR+lGxYNoNOJIHbroracjHaLvKWZN7A==}
+  /turbo-linux-ppc64le/1.4.2:
+    resolution: {integrity: sha512-ipxyQCj3NXq/2V6a4lKoNDt8CjcufICgHAvOhAUmoAxz4kIEKRvA/75xsPpt2Ih/a4fWGxsbWFK6oA+ac0l3jQ==}
     cpu: [ppc64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-32/1.4.0:
-    resolution: {integrity: sha512-5fmS6J3ZvhWRss+sFw2edOElVeKtk0l9yCoCYltPeFSy3+ArXws06ik3Z318SuKlbFu/+VTbM/NyBleKru+0ag==}
+  /turbo-windows-32/1.4.2:
+    resolution: {integrity: sha512-pCvsh8mPSw6ZFABQqeJzfercnsOwCj1LpbWTPW1QftDij6zw1OWU4jWU529Ub1f+GMBej+xm/ufJhT+8A3NhwA==}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-64/1.4.0:
-    resolution: {integrity: sha512-FZZBHjb8BYpEGbVOpJEEFAjS3xxUVg76MBPXqRb5IUPQeXiCd8VfO4UApn9syjUuTLORBoWLmSf3xp7vd1cIgA==}
+  /turbo-windows-64/1.4.2:
+    resolution: {integrity: sha512-GnvM8uGOA6idUloDDxiEgUpIx5o5ZJL0ARL7f+6r/vfwA+qlSe/F+4hDCmT3+Xkg7/7zDZix5ViKVoTDMBP/Ig==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-arm64/1.4.0:
-    resolution: {integrity: sha512-mJAlDf5/qBVMVv+q+0/2PF5tRHKz4mgtl/DnRn5n/rIfRvElGkjlPbQwJdXuMCEQVE9FMOAGRCstu0dkcdTluQ==}
+  /turbo-windows-arm64/1.4.2:
+    resolution: {integrity: sha512-2mCPiDnMLY924+M07mMo464cjOr0EITuIkK67IBm3EeEwSlunOmQk+LRc/Jq/Zx6Zuzp5XPZ2fZVvmmSFfogpQ==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo/1.4.0:
-    resolution: {integrity: sha512-k2x8QqunK/96tqzB7aRCQ601H7N2PnxTcrEH9NoJjN5sJeymnfn/dQ8l6HrSyuYrW259W3N/AWAAUhpXnUyitA==}
+  /turbo/1.4.2:
+    resolution: {integrity: sha512-ry1vUs5oHCIM+Sef8HED2XsbL28YAeclCrOtDp9zbZZMUX1r5s01COqOJjFJZfDiv2zSlUge9IIQXprM8BfrtA==}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      turbo-android-arm64: 1.4.0
-      turbo-darwin-64: 1.4.0
-      turbo-darwin-arm64: 1.4.0
-      turbo-freebsd-64: 1.4.0
-      turbo-freebsd-arm64: 1.4.0
-      turbo-linux-32: 1.4.0
-      turbo-linux-64: 1.4.0
-      turbo-linux-arm: 1.4.0
-      turbo-linux-arm64: 1.4.0
-      turbo-linux-mips64le: 1.4.0
-      turbo-linux-ppc64le: 1.4.0
-      turbo-windows-32: 1.4.0
-      turbo-windows-64: 1.4.0
-      turbo-windows-arm64: 1.4.0
+      turbo-android-arm64: 1.4.2
+      turbo-darwin-64: 1.4.2
+      turbo-darwin-arm64: 1.4.2
+      turbo-freebsd-64: 1.4.2
+      turbo-freebsd-arm64: 1.4.2
+      turbo-linux-32: 1.4.2
+      turbo-linux-64: 1.4.2
+      turbo-linux-arm: 1.4.2
+      turbo-linux-arm64: 1.4.2
+      turbo-linux-mips64le: 1.4.2
+      turbo-linux-ppc64le: 1.4.2
+      turbo-windows-32: 1.4.2
+      turbo-windows-64: 1.4.2
+      turbo-windows-arm64: 1.4.2
     dev: true
 
   /type-check/0.4.0:

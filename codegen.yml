@@ -13,3 +13,16 @@ generates:
     hooks:
       afterOneFileWrite:
         - prettier --write
+  apps/web/src/generated/graphql.generated.ts:
+    config:
+      typesPrefix: GQL
+      useIndexSignature: true
+    plugins:
+      - add:
+          content:
+            - '/* eslint-disable */'
+      - typescript
+      - typescript-operations
+    hooks:
+      afterOneFileWrite:
+        - prettier --write
