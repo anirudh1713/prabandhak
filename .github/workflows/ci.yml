@@ -10,7 +10,7 @@ jobs:
   build:
     name: Build and Lint
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     # To use Turborepo Remote Caching, set the following environment variables for the job.
     env:
