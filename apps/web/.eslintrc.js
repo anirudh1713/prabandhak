@@ -4,6 +4,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+  ignorePatterns: ['**/generated/*'],
   extends: [
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
