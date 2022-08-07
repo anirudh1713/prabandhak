@@ -10,11 +10,12 @@ jobs:
   build:
     name: Build and Lint
     timeout-minutes: 15
-    runs-on: ${{ matrix.os }}
-    # To use Remote Caching, uncomment the next lines and follow the steps below.
-    # env:
-    #  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-    #  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    runs-on: ubuntu-latest
+
+    # To use Turborepo Remote Caching, set the following environment variables for the job.
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     strategy:
       matrix:
         os: [ubuntu-latest]
