@@ -1,6 +1,6 @@
-schema: 'apps/api/src/**/query/*.graphql'
+schema: 'apps/api/src/**/graphql/*.graphql'
 generates:
-  apps/api/src/generated/resolvers.ts:
+  apps/api/src/generated/graphql.generated.ts:
     config:
       typesPrefix: GQL
       useIndexSignature: true

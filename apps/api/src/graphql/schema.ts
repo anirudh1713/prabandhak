@@ -5,7 +5,7 @@ import {GraphQLSchema} from 'graphql';
 import path from 'node:path';
 
 const getTypeDefs = async () => {
-  return loadFiles(path.join(__dirname, '../**/query/*.graphql'));
+  return loadFiles(path.join(__dirname, '../**/graphql/*.graphql'));
 };
 
 const getResolvers = async () => {
