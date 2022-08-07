@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --exit-child src/index.ts",
     "build": "tsc",
+    "lint": "eslint --ignore-path .gitignore ./src",
     "knex:migrate:make": "knex --knexfile src/knexfile.ts migrate:make",
     "knex:migrate:latest": "knex --knexfile src/knexfile.ts migrate:latest",
     "knex:migrate:rollback": "knex --knexfile src/knexfile.ts migrate:rollback"
