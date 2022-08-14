@@ -1,12 +1,13 @@
 import {GQLResolvers} from '../../generated/graphql.generated';
 import {createUser, getUserById} from '../user.service';
+import {NotFoundError} from '../../lib/custom-errors/not-found';
 
 const resolvers: GQLResolvers = {
   Query: {
     user: async (parent, arguments_) => {
       const user = await getUserById(arguments_.id);
       if (!user) {
-        throw new Error('user not found');
+        throw new NotFoundError('user not found', {id: arguments_.id});
       }
 
       return user;
