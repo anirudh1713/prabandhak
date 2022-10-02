@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import {v4 as uuidv4} from 'uuid';
 import {User} from './user.model';
 import {config} from '../../lib/config';
 import {GQLUser} from '../../generated/graphql.generated';
@@ -16,6 +17,7 @@ export const createUser = async (user: Omit<GQLUser, 'id'>): Promise<User> => {
   );
 
   return User.query().insertAndFetch({
+    id: uuidv4(),
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
