@@ -1,6 +1,6 @@
-import {GQLResolvers} from '../../generated/graphql.generated';
-import * as UserService from '../user.service';
-import {NotFoundError} from '../../lib/custom-errors/not-found';
+import {GQLResolvers} from '../../../../generated/graphql.generated';
+import * as UserService from '../../user.service';
+import {NotFoundError} from '../../../../lib/custom-errors/not-found';
 
 const resolvers: GQLResolvers = {
   Query: {

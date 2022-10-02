@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import {ModelObject, ToJsonOptions} from 'objection';
-import {BaseModel} from './common/base.model';
+import {BaseModel} from '../../db/models/common/base.model';
 
 export class User extends BaseModel {
   id: number;
