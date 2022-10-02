@@ -3,7 +3,7 @@ import {ModelObject, ToJsonOptions} from 'objection';
 import {BaseModel} from '../../db/models/common/base.model';
 
 export class User extends BaseModel {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -16,7 +16,7 @@ export class User extends BaseModel {
   }
 
   static joiSchema = Joi.object({
-    // `id` isn't needed here because its auto generated.
+    id: Joi.string().uuid({version: 'uuidv4'}),
 
     firstName: Joi.string().min(2).trim().required(),
 

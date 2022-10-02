@@ -6,7 +6,7 @@ import {Validator} from 'objection';
 export class BaseModel extends ObjectionModel {
   static idColumn = 'id';
 
-  id: number;
+  id: string;
   createdAt: string;
   updatedAt: string;
 
