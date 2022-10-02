@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import {User} from '../db/models/user.model';
-import {config} from '../lib/config';
-import {GQLUser} from '../generated/graphql.generated';
+import {User} from './user.model';
+import {config} from '../../lib/config';
+import {GQLUser} from '../../generated/graphql.generated';
 
 export const getUserById = async (
   id: GQLUser['id'],
