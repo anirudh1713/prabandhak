@@ -34,3 +34,6 @@ yarn-error.log*
 
 # codegen
 generated
+
+# ide
+.idea

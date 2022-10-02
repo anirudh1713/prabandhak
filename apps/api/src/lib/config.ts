@@ -5,5 +5,6 @@ export const config = {
     dbConnectionUrl:
       process.env.DB_CONNECTION_URL ||
       'postgresql://admin:admin@localhost/prabandhak',
+    saltRounds: process.env.SALT_ROUNDS || 10,
   },
 };
