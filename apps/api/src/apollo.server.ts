@@ -6,14 +6,21 @@ import {
   ApolloServerPluginLandingPageLocalDefault,
 } from 'apollo-server-core';
 import {ApolloServer} from 'apollo-server-express';
+import {createApplication} from 'graphql-modules';
 import {config} from './lib/config';
-import {initializeSchema} from './graphql/schema';
+import {gqlModules} from './modules';
+
+const application = createApplication({
+  modules: [...gqlModules],
+});
 
 export async function startApolloServer(app: Express, httpServer: Server) {
-  const schema = await initializeSchema();
+  const executor = application.createApolloExecutor();
+  const schema = application.schema;
 
   const server = new ApolloServer({
     schema,
+    executor,
     csrfPrevention: true,
     cache: 'bounded',
     plugins: [
