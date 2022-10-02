@@ -1,8 +1,0 @@
-type Mutation {
-  createUser(
-    firstName: String!
-    lasName: String!
-    email: String!
-    password: String!
-  ): User
-}
