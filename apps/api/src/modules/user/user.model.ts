@@ -2,8 +2,7 @@ import Joi from 'joi';
 import {ModelObject, ToJsonOptions} from 'objection';
 import {BaseModel} from '../../db/models/common/base.model';
 
-export class User extends BaseModel {
-  id: string;
+export class UserModel extends BaseModel {
   firstName: string;
   lastName: string;
   email: string;
