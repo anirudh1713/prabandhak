@@ -65,7 +65,9 @@ export class UserPassword extends ValueObject<IUserPasswordProperties> {
 
   public static create(properties: IUserPasswordProperties) {
     // TODO - update error messages for all ValueObjects
-    if (!this.isValid(properties.value)) throw new Error('Invalid password');
+    // Do not validate if the password is hashed
+    if (!properties.hashed && !this.isValid(properties.value))
+      throw new Error('Invalid password');
 
     return new UserPassword({
       value: properties.value,
