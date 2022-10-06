@@ -5,12 +5,16 @@ import {UserFirstName} from './user-first-name';
 import {UserLastName} from './user-last-name';
 import {UserPassword} from './user-password';
 import {UserId} from './user-id';
+import {UserCreatedAt} from './user-created-at';
+import {UserUpdatedAt} from './user-updated-at';
 
 interface IUserProperties {
   firstName: UserFirstName;
   lastName: UserLastName;
   email: UserEmail;
   password: UserPassword;
+  createdAt?: UserCreatedAt;
+  updatedAt?: UserUpdatedAt;
 }
 
 export class User extends Entity<IUserProperties> {
@@ -34,14 +38,28 @@ export class User extends Entity<IUserProperties> {
     return this.props.password;
   }
 
+  get createdAt() {
+    return this.props.createdAt;
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt;
+  }
+
   // eslint-disable-next-line no-useless-constructor
   private constructor(properties: IUserProperties, id?: EntityID) {
     super(properties, id);
   }
 
-  public static createUser(properties: IUserProperties, id?: EntityID): User {
+  public static create(properties: IUserProperties, id?: EntityID): User {
     // TODO - validation
 
-    return new User(properties, id);
+    return new User(
+      {
+        ...properties,
+        createdAt: properties.createdAt ?? UserCreatedAt.create(new Date()),
+      },
+      id,
+    );
   }
 }

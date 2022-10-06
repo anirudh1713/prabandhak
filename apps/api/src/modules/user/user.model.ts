@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import {ModelObject, ToJsonOptions} from 'objection';
 import {BaseModel} from '../../db/models/common/base.model';
 
 export class UserModel extends BaseModel {
@@ -25,19 +24,6 @@ export class UserModel extends BaseModel {
 
     email: Joi.string().email().required(),
   });
-
-  toJSON(opt?: ToJsonOptions): ModelObject<this> {
-    /**
-     * "any" here because:
-     * {@link} https://github.com/Vincit/objection.js/issues/1861
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = super.toJSON(opt) as any;
-
-    delete result.password;
-
-    return result;
-  }
 
   fullName() {
     return `${this.firstName} ${this.lastName}`;
