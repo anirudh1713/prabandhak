@@ -4,6 +4,7 @@ generates:
     config:
       typesPrefix: GQL
       useIndexSignature: true
+      useImplementingTypes: true
     plugins:
       - add:
           content:
