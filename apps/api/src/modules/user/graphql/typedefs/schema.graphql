@@ -1,22 +1,40 @@
-type User {
-  id: String!
+interface User {
+  firstName: String!
+  lastName: String!
+  email: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type Viewer implements User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  createdAt: String
+  updatedAt: String
+}
+
+input RegisterUserInput {
   firstName: String!
   lastName: String!
   email: String!
   password: String!
+}
+
+type RegisterUserPayload {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
   createdAt: String
   updatedAt: String
 }
 
 type Query {
-  user(id: String!): User
+  me(id: ID!): Viewer
 }
 
 type Mutation {
-  createUser(
-    firstName: String!
-    lasName: String!
-    email: String!
-    password: String!
-  ): User
+  registerUser(registerUserInput: RegisterUserInput!): RegisterUserPayload
 }
