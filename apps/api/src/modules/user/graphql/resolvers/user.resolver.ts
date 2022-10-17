@@ -4,7 +4,7 @@ import {NotFoundError} from '../../../../lib/custom-errors/not-found';
 
 const resolvers: GQLResolvers = {
   Query: {
-    user: async (parent, arguments_) => {
+    me: async (parent, arguments_) => {
       const user = await UserService.getUserById(arguments_.id);
       if (!user) {
         throw new NotFoundError('user not found', {id: arguments_.id});
@@ -14,13 +14,8 @@ const resolvers: GQLResolvers = {
     },
   },
   Mutation: {
-    createUser: async (parent, arguments_) => {
-      return UserService.createUser({
-        email: arguments_.email,
-        firstName: arguments_.firstName,
-        lastName: arguments_.lasName,
-        password: arguments_.password,
-      });
+    registerUser: async (parent, {registerUserInput}) => {
+      return UserService.createUser(registerUserInput);
     },
   },
 };
