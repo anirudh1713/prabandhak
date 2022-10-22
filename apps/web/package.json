@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx ."
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
+    "test": "echo 'its sad but its true'"
   },
   "dependencies": {
     "react": "^18.0.0",
