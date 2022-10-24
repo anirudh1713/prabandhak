@@ -10,6 +10,7 @@
     "knex:migrate:make": "knex --knexfile src/knexfile.ts migrate:make",
     "knex:migrate:latest": "knex --knexfile src/knexfile.ts migrate:latest",
     "knex:migrate:rollback": "knex --knexfile src/knexfile.ts migrate:rollback",
+    "graphql:codegen": "graphql-codegen",
     "test": "jest"
   },
   "keywords": [],

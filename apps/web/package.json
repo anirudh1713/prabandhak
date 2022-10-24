@@ -7,7 +7,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
-    "test": "echo 'its sad but its true'"
+    "test": "echo 'its sad but its true'",
+    "graphql:codegen": "echo 'not yet implemented'"
   },
   "dependencies": {
     "react": "^18.0.0",

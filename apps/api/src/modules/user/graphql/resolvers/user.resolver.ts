@@ -1,10 +1,10 @@
-import {GQLResolvers} from '../../../../generated/graphql.generated';
+import {UserModule} from '../../generated/module-types';
 import * as UserService from '../../user.service';
 import {NotFoundError} from '../../../../lib/custom-errors/not-found';
 
-const resolvers: GQLResolvers = {
+const resolvers: UserModule.Resolvers = {
   Query: {
-    me: async (parent, arguments_) => {
+    me: async (_, arguments_) => {
       const user = await UserService.getUserById(arguments_.id);
       if (!user) {
         throw new NotFoundError('user not found', {id: arguments_.id});
@@ -14,7 +14,7 @@ const resolvers: GQLResolvers = {
     },
   },
   Mutation: {
-    registerUser: async (parent, {registerUserInput}) => {
+    registerUser: async (_, {registerUserInput}) => {
       return UserService.createUser(registerUserInput);
     },
   },

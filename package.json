@@ -6,12 +6,10 @@
     "apps/*"
   ],
   "scripts": {
-    "prebuild": "pnpm run generate",
     "build": "turbo run build",
-    "predev": "pnpm run generate",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
-    "generate": "graphql-codegen",
+    "graphql:codegen": "turbo run graphql:codegen",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test": "turbo run test"
   },

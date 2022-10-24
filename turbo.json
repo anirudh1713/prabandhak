@@ -1,8 +1,13 @@
 {
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "dependsOn": [
+        "^build",
+        "grpahql:codegen"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
     },
     "lint": {},
     "test": {
@@ -14,10 +19,15 @@
       ]
     },
     "dev": {
-      "cache": false
+      "cache": false,
+      "dependsOn": [
+        "graphql:codegen"
+      ]
     },
-    "generate": {
-      "outputs": ["apps/api/src/generated/**"]
+    "graphql:codegen": {
+      "outputs": [
+        "apps/api/src/generated/**"
+      ]
     }
   }
 }

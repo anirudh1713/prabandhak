@@ -2,7 +2,7 @@ import {
   GQLRegisterUserInput,
   GQLRegisterUserPayload,
   GQLViewer,
-} from '../../generated/graphql.generated';
+} from '../../generated/graphql';
 import {User} from './domain/user.entity';
 import {UserFirstName} from './domain/user-first-name';
 import {UserPassword} from './domain/user-password';
