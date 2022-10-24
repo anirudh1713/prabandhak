@@ -48,6 +48,5 @@ jobs:
       - name: Build
         run: pnpm build
 
-      # TODO - Add tests and update CI
-      # - name: Test
-      #   run: pnpm test
+      - name: Test
+        run: pnpm test
