@@ -3,7 +3,7 @@
     "build": {
       "dependsOn": [
         "^build",
-        "grpahql:codegen"
+        "graphql:codegen"
       ],
       "outputs": [
         "dist/**"
