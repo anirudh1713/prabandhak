@@ -52,6 +52,7 @@
     "graphql": "^16.5.0",
     "graphql-modules": "^2.1.0",
     "helmet": "^5.1.1",
+    "inversify": "^6.0.1",
     "joi": "^17.6.0",
     "knex": "^2.2.0",
     "objection": "^3.0.1",

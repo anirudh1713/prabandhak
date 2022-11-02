@@ -1,37 +1,36 @@
-import {IGlobalIDProvider} from '../global-object-id-provider';
 import {GlobalObjectIDService} from '../global-object-id.service';
+import container from '../../../inversify.config';
+import TYPES from '../../../inversify.types';
+import { decodeMock, encodeMock, MockObjectIDProvider } from '../__mocks__/object-id-provider';
 
 describe('globalObjectIDService', () => {
-  it('should create and parse global object id', () => {
-    const typename = 'Viewer';
-    const id = 'test';
-    const separator = '|';
-    // Create a mock obejctIDProvider - i.e. Base64 etc.
-    const MockObjectIDProvider = jest.fn<IGlobalIDProvider, []>(() => {
-      return {
-        decode: jest.fn(() => `${typename}${separator}${id}`),
-        encode: jest.fn(),
-      };
-    });
-    const mockObjectIDProvider = new MockObjectIDProvider();
-    // Mocked globalObjectIDService
-    const globalObjectIDService = new GlobalObjectIDService(
-      mockObjectIDProvider,
-    );
+  beforeEach(() => {
+    container.snapshot();
+  });
 
-    globalObjectIDService.create(typename, id);
-    // encode method on objectIDProvider should be called with correct args.
-    expect(mockObjectIDProvider.encode).toHaveBeenCalled();
-    expect(mockObjectIDProvider.encode).toHaveBeenCalledWith(
-      `${typename}${separator}${id}`,
+  afterEach(() => {
+    container.restore();
+  });
+
+  it('should create and parse global object id', () => {
+    // Rebind GlobalIdProvider used in GlobalObjectIDService
+    container.rebind(TYPES.GlobalIDProvider).to(MockObjectIDProvider);
+
+    const globalObjectIDService = container.get<GlobalObjectIDService>(
+      TYPES.GlobalObjectIDService,
     );
+    globalObjectIDService.create('Viewer', 'test');
+
+    // encode method on objectIDProvider should be called with correct args.
+    expect(encodeMock).toHaveBeenCalled();
+    expect(encodeMock).toHaveBeenCalledWith('Viewer|test');
 
     // deocde method on objectIDProvider should be called with correct args.
     const parsedID = globalObjectIDService.parse('encoded_string');
-    expect(mockObjectIDProvider.decode).toHaveBeenCalled();
-    expect(mockObjectIDProvider.decode).toHaveBeenCalledWith('encoded_string');
+    expect(decodeMock).toHaveBeenCalled();
+    expect(decodeMock).toHaveBeenCalledWith('encoded_string');
 
     // parsedID should be correct
-    expect(parsedID).toEqual([typename, id]);
+    expect(parsedID).toEqual(['Viewer', 'test']);
   });
 });

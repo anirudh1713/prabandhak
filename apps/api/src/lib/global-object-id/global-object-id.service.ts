@@ -1,10 +1,15 @@
+import {inject, injectable} from 'inversify';
+import TYPES from '../../inversify.types';
 import {IGlobalIDProvider} from './global-object-id-provider';
 
+@injectable()
 export class GlobalObjectIDService {
   private readonly _SEPARATOR = '|';
   private readonly _globalIDService: IGlobalIDProvider;
 
-  public constructor(globalIDEncoder: IGlobalIDProvider) {
+  public constructor(
+    @inject(TYPES.GlobalIDProvider) globalIDEncoder: IGlobalIDProvider,
+  ) {
     this._globalIDService = globalIDEncoder;
   }
 

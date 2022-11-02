@@ -6,7 +6,9 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "lib": ["es2015"],
+    "lib": [
+      "es6"
+    ],
     "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
@@ -14,6 +16,7 @@
     "resolveJsonModule": true,
     "rootDir": "src",
     "strictPropertyInitialization": false,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
 }
