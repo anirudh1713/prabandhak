@@ -1,16 +1,12 @@
-import {inject, injectable} from 'inversify';
-import TYPES from '../../inversify.types';
 import {IGlobalIDProvider} from './global-object-id-provider';
+import {Base64} from './providers/base64';
 
-@injectable()
 export class GlobalObjectIDService {
   private readonly _SEPARATOR = '|';
-  private readonly _globalIDService: IGlobalIDProvider;
+  private readonly _globalIDProvider: IGlobalIDProvider;
 
-  public constructor(
-    @inject(TYPES.GlobalIDProvider) globalIDEncoder: IGlobalIDProvider,
-  ) {
-    this._globalIDService = globalIDEncoder;
+  public constructor(globalIDProvider: IGlobalIDProvider) {
+    this._globalIDProvider = globalIDProvider;
   }
 
   private merge(...arguments_: string[]) {
@@ -22,12 +18,14 @@ export class GlobalObjectIDService {
   }
 
   public create(typename: string, id: string) {
-    return this._globalIDService.encode(this.merge(typename, id));
+    return this._globalIDProvider.encode(this.merge(typename, id));
   }
 
   public parse(encodedText: string) {
-    const parsedString = this._globalIDService.decode(encodedText);
+    const parsedString = this._globalIDProvider.decode(encodedText);
 
     return this.separate(parsedString);
   }
 }
+
+export const globalObjectIDService = new GlobalObjectIDService(new Base64());

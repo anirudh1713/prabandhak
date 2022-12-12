@@ -1,23 +1,14 @@
 import {GlobalObjectIDService} from '../global-object-id.service';
-import container from '../../../inversify.config';
-import TYPES from '../../../inversify.types';
-import { decodeMock, encodeMock, MockObjectIDProvider } from '../__mocks__/object-id-provider';
+import {
+  decodeMock,
+  encodeMock,
+  MockObjectIDProvider,
+} from '../__mocks__/object-id-provider';
 
 describe('globalObjectIDService', () => {
-  beforeEach(() => {
-    container.snapshot();
-  });
-
-  afterEach(() => {
-    container.restore();
-  });
-
   it('should create and parse global object id', () => {
-    // Rebind GlobalIdProvider used in GlobalObjectIDService
-    container.rebind(TYPES.GlobalIDProvider).to(MockObjectIDProvider);
-
-    const globalObjectIDService = container.get<GlobalObjectIDService>(
-      TYPES.GlobalObjectIDService,
+    const globalObjectIDService = new GlobalObjectIDService(
+      new MockObjectIDProvider(),
     );
     globalObjectIDService.create('Viewer', 'test');
 

@@ -1,7 +1,5 @@
-import {injectable} from 'inversify';
 import {IGlobalIDProvider} from '../global-object-id-provider';
 
-@injectable()
 export class Base64 implements IGlobalIDProvider {
   encode(plainText: string): string {
     const buff = Buffer.from(plainText, 'utf8');
