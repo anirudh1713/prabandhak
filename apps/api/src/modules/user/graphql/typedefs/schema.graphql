@@ -1,3 +1,7 @@
+interface Node {
+  id: ID!
+}
+
 interface User {
   firstName: String!
   lastName: String!
@@ -6,7 +10,7 @@ interface User {
   updatedAt: String
 }
 
-type Viewer implements User {
+type Viewer implements Node & User {
   id: ID!
   firstName: String!
   lastName: String!
@@ -33,6 +37,7 @@ type RegisterUserPayload {
 
 type Query {
   me(id: ID!): Viewer
+  node(id: ID!): Node
 }
 
 type Mutation {
