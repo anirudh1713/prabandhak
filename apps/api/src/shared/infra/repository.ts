@@ -1,5 +1,6 @@
 export interface IRepository<T> {
-  exists(t: T): Promise<boolean>;
-  delete(t: T): Promise<void>;
-  save(t: T): Promise<T>;
+  exists(id: string): Promise<boolean>;
+  delete(id: string): Promise<void>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  save(t: T): Promise<any>;
 }

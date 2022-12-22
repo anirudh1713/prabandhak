@@ -4,33 +4,29 @@ import {UserModel} from '../user.model';
 import {UserMapper} from '../mappers/user.mapper';
 
 export class UserRepo implements IRepository<User> {
-  async delete(user: User): Promise<void> {
-    const doesExists = await this.exists(user);
+  async delete(userID: string): Promise<void> {
+    const doesExists = await this.exists(userID);
     if (!doesExists) throw new Error('User does not exist');
 
-    const userId = user.userId.id.toString();
-    await UserModel.query().deleteById(userId);
+    await UserModel.query().deleteById(userID);
   }
 
-  async exists(user: User): Promise<boolean> {
-    const userId = user.userId.id.toString();
-    const foundUser = await UserModel.query().findById(userId);
+  async exists(userID: string): Promise<boolean> {
+    const foundUser = await UserModel.query().findById(userID);
 
     return !!foundUser;
   }
 
-  async save(user: User): Promise<User> {
+  async save(user: User): Promise<UserModel> {
     const persistenceUser = await UserMapper.toPersistence(user);
-    const createdUser = await UserModel.query().insertAndFetch(persistenceUser);
-
-    return UserMapper.toDomain(createdUser);
+    return UserModel.query().insertAndFetch(persistenceUser);
   }
 
-  async getUserById(id: string): Promise<User> {
-    const user = await UserModel.query().findById(id);
+  async getUserById(userID: string): Promise<UserModel> {
+    const user = await UserModel.query().findById(userID);
 
     if (!user) throw new Error('User not found');
 
-    return UserMapper.toDomain(user);
+    return user;
   }
 }
