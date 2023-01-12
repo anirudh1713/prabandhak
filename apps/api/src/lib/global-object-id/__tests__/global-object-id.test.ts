@@ -1,4 +1,4 @@
-import {GlobalObjectIDService} from '../global-object-id.service';
+import { GlobalObjectIDService } from '../global-object-id.service';
 import {
   decodeMock,
   encodeMock,
@@ -22,6 +22,6 @@ describe('globalObjectIDService', () => {
     expect(decodeMock).toHaveBeenCalledWith('encoded_string');
 
     // parsedID should be correct
-    expect(parsedID).toEqual(['Viewer', 'test']);
+    expect(parsedID).toEqual({ id: 'test', type: 'Viewer' });
   });
 });
