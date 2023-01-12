@@ -1,5 +1,5 @@
-import {createModule} from 'graphql-modules';
-import {loadFilesSync} from '@graphql-tools/load-files';
+import { createModule } from 'graphql-modules';
+import { loadFilesSync } from '@graphql-tools/load-files';
 import path from 'node:path';
 
 export const userGqlModule = createModule({

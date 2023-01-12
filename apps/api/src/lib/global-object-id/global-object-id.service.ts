@@ -1,5 +1,5 @@
-import {IGlobalIDProvider} from './global-object-id-provider';
-import {Base64} from './providers/base64';
+import { IGlobalIDProvider } from './global-object-id-provider';
+import { Base64 } from './providers/base64';
 
 export class GlobalObjectIDService {
   private readonly _SEPARATOR = '|';
@@ -23,8 +23,12 @@ export class GlobalObjectIDService {
 
   public parse(encodedText: string) {
     const parsedString = this._globalIDProvider.decode(encodedText);
+    const delimiterPos = parsedString.indexOf(this._SEPARATOR);
 
-    return this.separate(parsedString);
+    return {
+      type: parsedString.slice(0, delimiterPos),
+      id: parsedString.slice(delimiterPos + 1),
+    };
   }
 }
 
