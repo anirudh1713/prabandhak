@@ -14,7 +14,7 @@ export class InternalServerError extends ErrorBase {
   static readonly message = 'Internal server error';
   readonly code = INTERNAL_SERVER_ERROR;
 
-  constructor(message = InternalServerError.message) {
-    super(message);
+  constructor(message = InternalServerError.message, error?: Error) {
+    super(message, error);
   }
 }
