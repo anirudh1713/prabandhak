@@ -3,11 +3,12 @@ import { User } from '../domain/user.entity';
 import { UserModel } from '../user.model';
 import { UserMapper } from '../mappers/user.mapper';
 import { UserRepositoryPort } from './user.repo.port';
-import { InternalServerError } from '../../../lib/errors/custom-errors';
-import { UserAlreadyExistError, UserNotFoundError } from '../domain/user.errors';
+import { InternalServerError, InvalidUserInputError } from '../../../lib/errors/custom-errors';
 import { UserId } from '../domain/user-id';
 import { PromiseEither } from '../../../shared/types/core';
-import { UserInputError } from 'apollo-server-errors';
+import { UserEmail } from '../domain/user-email';
+import { UserNotFoundError } from '../errors/user-not-found.error';
+import { UserAlreadyExistError } from '../errors/user-already-exist.error';
 
 export class UserRepo implements UserRepositoryPort<User> {
   async delete(user: User): PromiseEither<UserNotFoundError, number> {
@@ -44,7 +45,7 @@ export class UserRepo implements UserRepositoryPort<User> {
     }
   }
 
-  async save(user: User): PromiseEither<UserAlreadyExistError | UserInputError, User> {
+  async save(user: User): PromiseEither<UserAlreadyExistError | InvalidUserInputError, User> {
     try {
       const persistenceUser = await UserMapper.toPersistence(user);
       // @TODO - check if user with same email exists or not.
@@ -52,7 +53,7 @@ export class UserRepo implements UserRepositoryPort<User> {
         persistenceUser,
       );
 
-      // Returning UserInputError from here does not makes sense.
+      // Returning InvalidUserInputError from here does not makes sense.
       // Since we're getting data from DB, we should be able to
       // assume that its correct?
       const domainUser = UserMapper.toDomain(createdUser);
@@ -70,7 +71,7 @@ export class UserRepo implements UserRepositoryPort<User> {
     }
   }
 
-  async getUserById(userId: UserId): PromiseEither<UserNotFoundError | UserInputError, User> {
+  async getUserById(userId: UserId): PromiseEither<UserNotFoundError | InvalidUserInputError, User> {
     try {
       const id = userId.id.toString();
       const user = await UserModel.query().findById(id);
@@ -81,6 +82,23 @@ export class UserRepo implements UserRepositoryPort<User> {
       if (E.isLeft(domainUser)) return domainUser;
 
       return domainUser;
+    } catch (error) {
+      return E.left(
+        new InternalServerError(
+          undefined,
+          error instanceof Error ? error : undefined,
+        ),
+      );
+    }
+  }
+
+  async isEmailInUse(userEmail: UserEmail): PromiseEither<never, boolean> {
+    try {
+      const email = userEmail.value;
+      const user = await UserModel.query().findOne({ email });
+
+      if (!user) return E.right(false);
+      return E.right(true);
     } catch (error) {
       return E.left(
         new InternalServerError(

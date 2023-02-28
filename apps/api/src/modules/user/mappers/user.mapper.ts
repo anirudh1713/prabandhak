@@ -9,10 +9,10 @@ import {IUserDTO} from '../dtos/user.dto';
 import {PartialModelObject} from 'objection';
 import { sequenceS } from 'fp-ts/lib/Apply';
 import * as E from 'fp-ts/Either';
-import { UserInputError } from 'apollo-server-errors';
+import { InvalidUserInputError } from '../../../lib/errors';
 
 export class UserMapper {
-  public static toDomain(user: UserModel): E.Either<UserInputError, User> {
+  public static toDomain(user: UserModel): E.Either<InvalidUserInputError, User> {
     const sequenceSEither = sequenceS(E.Apply)
 
     const userOrError = sequenceSEither({

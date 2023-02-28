@@ -20,3 +20,13 @@ export abstract class ErrorBase extends Error {
     };
   }
 }
+
+export type WrappedError<E extends Error> = {
+  _tag: 'WrappedError'
+  error: NonNullable<E>
+}
+ 
+export const wrappedError = <E extends Error>(error: E) => ({
+  _tag: 'WrappedError',
+  error
+})

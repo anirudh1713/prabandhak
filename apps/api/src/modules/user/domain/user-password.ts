@@ -1,10 +1,9 @@
-import Joi from 'joi';
 import { ValueObject } from '../../../shared/domain/value-object';
 import bcrypt from 'bcrypt';
 import { config } from '../../../lib/config';
 import { Either, isLeft, left, right } from 'fp-ts/lib/Either';
-import { UserInputError } from 'apollo-server-errors';
 import { z } from 'zod';
+import { InvalidUserInputError } from '../../../lib/errors';
 
 export interface IUserPasswordProperties {
   value: string;
@@ -24,7 +23,7 @@ export class UserPassword extends ValueObject<IUserPasswordProperties> {
     return this.props.value;
   }
 
-  public static isValid(password: string): Either<UserInputError, true> {
+  public static isValid(password: string): Either<InvalidUserInputError, true> {
     const schema = z
       .string()
       .min(this.minLength, {
@@ -37,7 +36,7 @@ export class UserPassword extends ValueObject<IUserPasswordProperties> {
     const parsed = schema.safeParse(password);
 
     if (!parsed.success) {
-      return left(new UserInputError(parsed.error.message));
+      return left(new InvalidUserInputError(parsed.error.message));
     }
 
     return right(parsed.success);
@@ -77,7 +76,7 @@ export class UserPassword extends ValueObject<IUserPasswordProperties> {
 
   public static create(
     properties: IUserPasswordProperties,
-  ): Either<UserInputError, UserPassword> {
+  ): Either<InvalidUserInputError, UserPassword> {
     // Do not validate if the password is hashed
     const validOrError = this.isValid(properties.value);
     if (!properties.hashed && isLeft(validOrError)) return validOrError;

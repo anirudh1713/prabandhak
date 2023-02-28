@@ -1,6 +1,6 @@
-import { UserInputError } from 'apollo-server-errors';
 import { Either, isLeft, left, right } from 'fp-ts/lib/Either';
 import { z } from 'zod';
+import { InvalidUserInputError } from '../../../lib/errors';
 import { ValueObject } from '../../../shared/domain/value-object';
 
 export interface IUserLastNameProperties {
@@ -20,13 +20,13 @@ export class UserLastName extends ValueObject<IUserLastNameProperties> {
     return this.props.value;
   }
 
-  private static isValid(lastName: string): Either<UserInputError, true> {
+  private static isValid(lastName: string): Either<InvalidUserInputError, true> {
     const schema = z.string().min(this.minLength).max(this.maxLength);
 
     const parsed = schema.safeParse(lastName);
 
     if (!parsed.success) {
-      return left(new UserInputError(parsed.error.message));
+      return left(new InvalidUserInputError(parsed.error.message));
     }
 
     return right(parsed.success);
@@ -36,7 +36,7 @@ export class UserLastName extends ValueObject<IUserLastNameProperties> {
     return lastName.trim();
   }
 
-  public static create(lastName: string): Either<UserInputError, UserLastName> {
+  public static create(lastName: string): Either<InvalidUserInputError, UserLastName> {
     const validOrError = this.isValid(lastName);
     if (isLeft(validOrError)) return validOrError;
 
