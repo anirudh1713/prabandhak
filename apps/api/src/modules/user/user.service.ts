@@ -1,3 +1,6 @@
+import { UserInputError } from 'apollo-server-errors';
+import * as E from 'fp-ts/Either';
+import { sequenceS } from 'fp-ts/Apply';
 import {
   GQLRegisterUserInput,
   GQLRegisterUserPayload,
@@ -11,35 +14,50 @@ import { UserEmail } from './domain/user-email';
 import { UserMapper } from './mappers/user.mapper';
 import { userRepo } from './repositories';
 import { UserId } from './domain/user-id';
-import { isLeft, right } from 'fp-ts/lib/Either';
 import { PromiseEither } from '../../shared/types/core';
 import { UserAlreadyExistError, UserNotFoundError } from './domain/user.errors';
 
-// @TODO - strongly type return type as graphQL types
 export const getUserById = async (
   id: UserId,
-): PromiseEither<UserNotFoundError, GQLViewer> => {
+): PromiseEither<UserNotFoundError | UserInputError, GQLViewer> => {
   const userOrError = await userRepo.getUserById(id);
   // in case of error return it.
-  if (isLeft(userOrError)) return userOrError;
+  if (E.isLeft(userOrError)) return userOrError;
 
   const user = userOrError.right;
-  return right(UserMapper.toDTO(user));
+  return E.right(UserMapper.toDTO(user));
 };
 
 export const createUser = async (
   user: GQLRegisterUserInput,
-): PromiseEither<UserAlreadyExistError, GQLRegisterUserPayload> => {
+): PromiseEither<
+  UserAlreadyExistError | UserInputError,
+  GQLRegisterUserPayload
+> => {
+  const sequenceSEither = sequenceS(E.Apply)
+
+  const result = sequenceSEither({
+    lastNameOrError: UserLastName.create(user.lastName),
+    firstNameOrError: UserFirstName.create(user.firstName),
+    emailOrError: UserEmail.create(user.email),
+    passwordOrError: UserPassword.create({
+      value: user.password,
+      hashed: false,
+    }),
+  })
+
+  if (E.isLeft(result)) return result;
+
   const userData = User.create({
-    lastName: UserLastName.create(user.lastName),
-    firstName: UserFirstName.create(user.firstName),
-    email: UserEmail.create(user.email),
-    password: UserPassword.create({ value: user.password, hashed: false }),
+    lastName: result.right.lastNameOrError,
+    firstName: result.right.firstNameOrError,
+    email: result.right.emailOrError,
+    password: result.right.passwordOrError,
   });
 
   const createdUserOrError = await userRepo.save(userData);
-  if (isLeft(createdUserOrError)) return createdUserOrError;
+  if (E.isLeft(createdUserOrError)) return createdUserOrError;
 
   const createdUser = createdUserOrError.right;
-  return right(UserMapper.toDTO(createdUser));
+  return E.right(UserMapper.toDTO(createdUser));
 };

@@ -52,12 +52,11 @@ export class User extends Entity<IUserProperties> {
   }
 
   public static create(properties: IUserProperties, id?: EntityID): User {
-    // TODO - validation
-
+    // TOOD - validate incoming data.
     return new User(
       {
         ...properties,
-        createdAt: properties.createdAt ?? UserCreatedAt.create(new Date()),
+        createdAt: properties.createdAt ?? UserCreatedAt.create(),
       },
       id,
     );

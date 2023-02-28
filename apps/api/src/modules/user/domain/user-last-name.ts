@@ -1,11 +1,16 @@
-import Joi from 'joi';
-import {ValueObject} from '../../../shared/domain/value-object';
+import { UserInputError } from 'apollo-server-errors';
+import { Either, isLeft, left, right } from 'fp-ts/lib/Either';
+import { z } from 'zod';
+import { ValueObject } from '../../../shared/domain/value-object';
 
 export interface IUserLastNameProperties {
   value: string;
 }
 
 export class UserLastName extends ValueObject<IUserLastNameProperties> {
+  private static minLength = 2;
+  private static maxLength = 10;
+  //
   // eslint-disable-next-line no-useless-constructor
   private constructor(properties: IUserLastNameProperties) {
     super(properties);
@@ -15,19 +20,26 @@ export class UserLastName extends ValueObject<IUserLastNameProperties> {
     return this.props.value;
   }
 
-  private static isValid(lastName: string) {
-    const {error} = Joi.string().required().min(2).max(10).validate(lastName);
+  private static isValid(lastName: string): Either<UserInputError, true> {
+    const schema = z.string().min(this.minLength).max(this.maxLength);
 
-    return !error;
+    const parsed = schema.safeParse(lastName);
+
+    if (!parsed.success) {
+      return left(new UserInputError(parsed.error.message));
+    }
+
+    return right(parsed.success);
   }
 
   private static format(lastName: string) {
     return lastName.trim();
   }
 
-  public static create(lastName: string) {
-    if (!this.isValid(lastName)) throw new Error('Invalid last name');
+  public static create(lastName: string): Either<UserInputError, UserLastName> {
+    const validOrError = this.isValid(lastName);
+    if (isLeft(validOrError)) return validOrError;
 
-    return new UserLastName({value: this.format(lastName)});
+    return right(new UserLastName({ value: this.format(lastName) }));
   }
 }

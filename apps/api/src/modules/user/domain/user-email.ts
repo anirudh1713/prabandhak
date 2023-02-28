@@ -1,5 +1,7 @@
-import {ValueObject} from '../../../shared/domain/value-object';
-import Joi from 'joi';
+import { ValueObject } from '../../../shared/domain/value-object';
+import { z } from 'zod';
+import { Either, isLeft, left, right } from 'fp-ts/lib/Either';
+import { UserInputError } from 'apollo-server-errors';
 
 export interface IUserEmailProperties {
   value: string;
@@ -15,19 +17,26 @@ export class UserEmail extends ValueObject<IUserEmailProperties> {
     super(properties);
   }
 
-  private static isValid(email: string) {
-    const {error} = Joi.string().email().validate(email);
+  private static isValid(email: string): Either<UserInputError, true> {
+    const schema = z.string().email();
 
-    return !error;
+    const parsed = schema.safeParse(email);
+
+    if (!parsed.success) {
+      return left(new UserInputError(parsed.error.message));
+    }
+
+    return right(parsed.success);
   }
 
   private static format(email: string) {
     return email.trim().toLowerCase();
   }
 
-  public static create(email: string) {
-    if (!this.isValid(email)) throw new Error('Invalid email');
+  public static create(email: string): Either<UserInputError, UserEmail> {
+    const isValidOrError = this.isValid(email);
+    if (isLeft(isValidOrError)) return isValidOrError;
 
-    return new UserEmail({value: this.format(email)});
+    return right(new UserEmail({ value: this.format(email) }));
   }
 }

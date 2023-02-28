@@ -1,15 +1,18 @@
+import {ValidationError} from 'apollo-server-errors';
+import {Either, isLeft, right} from 'fp-ts/lib/Either';
 import {
   ITimestampProperties,
   Timestamp,
 } from '../../../shared/domain/value-objects/timestamp';
 
 export interface IUserCreatedAtProperties extends ITimestampProperties {
-  value: undefined | string;
+  value: string | undefined;
 }
 
 export class UserCreatedAt extends Timestamp<IUserCreatedAtProperties> {
-  get value(): undefined | string {
-    return this.props.value;
+  get value(): Date | null {
+    if (!this.props.value) return null;
+    return new Date(this.props.value);
   }
 
   // eslint-disable-next-line no-useless-constructor
@@ -17,12 +20,22 @@ export class UserCreatedAt extends Timestamp<IUserCreatedAtProperties> {
     super(properties);
   }
 
-  public static create(timestamp?: Date) {
-    if (timestamp && !this.isValid(timestamp))
-      throw new Error('Invalid created at timestamp');
+  public static create(): UserCreatedAt;
+  public static create(timestamp: Date): Either<ValidationError, UserCreatedAt>;
+  public static create(
+    timestamp?: Date,
+  ) {
+    if (timestamp) {
+      const validOrError = this.isValid(timestamp);
+      if (isLeft(validOrError)) return validOrError;
 
-    return new UserCreatedAt({
-      value: timestamp ? this.format(timestamp) : undefined,
-    });
+      return right(
+        new UserCreatedAt({
+          value: this.format(timestamp),
+        }),
+      );
+    }
+
+    return new UserCreatedAt({ value: this.format(new Date()) });
   }
 }

@@ -1,7 +1,10 @@
 import Joi from 'joi';
-import {ValueObject} from '../../../shared/domain/value-object';
+import { ValueObject } from '../../../shared/domain/value-object';
 import bcrypt from 'bcrypt';
-import {config} from '../../../lib/config';
+import { config } from '../../../lib/config';
+import { Either, isLeft, left, right } from 'fp-ts/lib/Either';
+import { UserInputError } from 'apollo-server-errors';
+import { z } from 'zod';
 
 export interface IUserPasswordProperties {
   value: string;
@@ -21,14 +24,23 @@ export class UserPassword extends ValueObject<IUserPasswordProperties> {
     return this.props.value;
   }
 
-  public static isValid(password: string) {
-    const {error} = Joi.string()
-      .required()
-      .min(this.minLength)
-      .max(this.maxLength)
-      .validate(password);
+  public static isValid(password: string): Either<UserInputError, true> {
+    const schema = z
+      .string()
+      .min(this.minLength, {
+        message: `Must be ${this.minLength} or more characters long`,
+      })
+      .max(this.maxLength, {
+        message: `Must be ${this.maxLength} or fewer characters long`,
+      });
 
-    return !error;
+    const parsed = schema.safeParse(password);
+
+    if (!parsed.success) {
+      return left(new UserInputError(parsed.error.message));
+    }
+
+    return right(parsed.success);
   }
 
   public async comparePassword(plainTextPassword: string) {
@@ -63,15 +75,18 @@ export class UserPassword extends ValueObject<IUserPasswordProperties> {
     return this.props.hashed;
   }
 
-  public static create(properties: IUserPasswordProperties) {
-    // TODO - update error messages for all ValueObjects
+  public static create(
+    properties: IUserPasswordProperties,
+  ): Either<UserInputError, UserPassword> {
     // Do not validate if the password is hashed
-    if (!properties.hashed && !this.isValid(properties.value))
-      throw new Error('Invalid password');
+    const validOrError = this.isValid(properties.value);
+    if (!properties.hashed && isLeft(validOrError)) return validOrError;
 
-    return new UserPassword({
-      value: properties.value,
-      hashed: properties.hashed,
-    });
+    return right(
+      new UserPassword({
+        value: properties.value,
+        hashed: properties.hashed,
+      }),
+    );
   }
 }
