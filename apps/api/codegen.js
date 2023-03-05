@@ -17,12 +17,12 @@ module.exports = {
         },
         {
           add: {
-            content: "import * as E form './src/lib/errors';",
+            content: "import * as E from '@/lib/errors';",
           },
         },
         {
           add: {
-            content: "import * as UserError form './src/modules/user/errors';",
+            content: "import * as UserError from '@/modules/user/errors';",
           },
         },
       ],
