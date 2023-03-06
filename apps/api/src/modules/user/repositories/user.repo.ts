@@ -3,7 +3,7 @@ import { User } from '../domain/user.entity';
 import { UserModel } from '../user.model';
 import { UserMapper } from '../mappers/user.mapper';
 import { UserRepositoryPort } from './user.repo.port';
-import { InternalServerError, InvalidUserInputError } from '../../../lib/errors/custom-errors';
+import { InvalidUserInputError } from '../../../lib/errors/custom-errors';
 import { UserId } from '../domain/user-id';
 import { PromiseEither } from '../../../shared/types/core';
 import { UserEmail } from '../domain/user-email';
@@ -19,13 +19,9 @@ export class UserRepo implements UserRepositoryPort<User> {
       const userId = user.userId.id.toString();
       const affectedRows = await UserModel.query().deleteById(userId);
       return E.right(affectedRows);
-    } catch (error) {
-      return E.left(
-        new InternalServerError(
-          undefined,
-          error instanceof Error ? error : undefined,
-        ),
-      );
+    } catch {
+      // TODO - logging and follow DRY.
+      throw new Error('Something went wrong.');
     }
   }
 
@@ -35,13 +31,8 @@ export class UserRepo implements UserRepositoryPort<User> {
       const foundUser = await UserModel.query().findById(userId);
 
       return E.right(!!foundUser);
-    } catch (error) {
-      return E.left(
-        new InternalServerError(
-          undefined,
-          error instanceof Error ? error : undefined,
-        ),
-      );
+    } catch {
+      throw new Error('Something went wrong.');
     }
   }
 
@@ -60,14 +51,8 @@ export class UserRepo implements UserRepositoryPort<User> {
       if (E.isLeft(domainUser)) return domainUser;
 
       return domainUser;
-    } catch (error) {
-      console.log(error);
-      return E.left(
-        new InternalServerError(
-          undefined,
-          error instanceof Error ? error : undefined,
-        ),
-      );
+    } catch {
+      throw new Error('Something went wrong.');
     }
   }
 
@@ -82,13 +67,8 @@ export class UserRepo implements UserRepositoryPort<User> {
       if (E.isLeft(domainUser)) return domainUser;
 
       return domainUser;
-    } catch (error) {
-      return E.left(
-        new InternalServerError(
-          undefined,
-          error instanceof Error ? error : undefined,
-        ),
-      );
+    } catch {
+      throw new Error('Something went wrong.');
     }
   }
 
@@ -99,13 +79,8 @@ export class UserRepo implements UserRepositoryPort<User> {
 
       if (!user) return E.right(false);
       return E.right(true);
-    } catch (error) {
-      return E.left(
-        new InternalServerError(
-          undefined,
-          error instanceof Error ? error : undefined,
-        ),
-      );
+    } catch {
+      throw new Error('Something went wrong.');
     }
   }
 }

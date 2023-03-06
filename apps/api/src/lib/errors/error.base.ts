@@ -26,7 +26,7 @@ export type WrappedError<E extends Error> = {
   error: NonNullable<E>
 }
  
-export const wrappedError = <E extends Error>(error: E) => ({
-  _tag: 'WrappedError',
+export const wrappedError = <E extends Error>(error: E): E extends E ? { _tag: 'WrappedError', error: E } : never => ({
+  _tag: 'WrappedError' as const,
   error
-})
+} as any)
