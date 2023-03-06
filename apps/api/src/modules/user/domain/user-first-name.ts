@@ -1,11 +1,16 @@
-import Joi from 'joi';
-import {ValueObject} from '../../../shared/domain/value-object';
+import { Either, isLeft, left, right } from 'fp-ts/lib/Either';
+import { z } from 'zod';
+import { InvalidUserInputError } from '../../../lib/errors';
+import { ValueObject } from '../../../shared/domain/value-object';
 
 export interface IUserFirstNameProperties {
   value: string;
 }
 
 export class UserFirstName extends ValueObject<IUserFirstNameProperties> {
+  private static minLength = 2;
+  private static maxLength = 10;
+
   // eslint-disable-next-line no-useless-constructor
   private constructor(properties: IUserFirstNameProperties) {
     super(properties);
@@ -15,19 +20,27 @@ export class UserFirstName extends ValueObject<IUserFirstNameProperties> {
     return this.props.value;
   }
 
-  private static isValid(firstName: string) {
-    const {error} = Joi.string().required().min(2).max(10).validate(firstName);
+  private static isValid(firstName: string): Either<InvalidUserInputError, true> {
+    const schema = z.string().min(this.minLength).max(this.maxLength);
 
-    return !error;
+    const parsed = schema.safeParse(firstName);
+    if (!parsed.success) {
+      return left(new InvalidUserInputError(parsed.error.message));
+    }
+
+    return right(parsed.success);
   }
 
   private static format(firstName: string) {
     return firstName.trim();
   }
 
-  public static create(firstName: string) {
-    if (!this.isValid(firstName)) throw new Error('Invalid first name');
+  public static create(
+    firstName: string,
+  ): Either<InvalidUserInputError, UserFirstName> {
+    const validOrError = this.isValid(firstName);
+    if (isLeft(validOrError)) return validOrError;
 
-    return new UserFirstName({value: this.format(firstName)});
+    return right(new UserFirstName({ value: this.format(firstName) }));
   }
 }

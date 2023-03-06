@@ -6,6 +6,10 @@ interface User {
   updatedAt: String
 }
 
+interface BaseError {
+  message: String!
+}
+
 type Viewer implements User {
   id: ID!
   firstName: String!
@@ -22,7 +26,19 @@ input RegisterUserInput {
   password: String!
 }
 
-type RegisterUserPayload {
+type UserAlreadyExistsError implements BaseError {
+  message: String!
+}
+
+type InvalidUserInputError implements BaseError {
+  message: String!
+}
+
+type UserNotFoundError implements BaseError {
+  message: String!
+}
+
+type RegisterUserSuccess {
   id: ID!
   firstName: String!
   lastName: String!
@@ -31,10 +47,13 @@ type RegisterUserPayload {
   updatedAt: String
 }
 
+union RegisterUserPayload = RegisterUserSuccess | UserAlreadyExistsError | InvalidUserInputError
+union MePayload = Viewer | UserNotFoundError | InvalidUserInputError
+
 type Query {
-  me(id: ID!): Viewer
+  me(id: ID!): MePayload!
 }
 
 type Mutation {
-  registerUser(registerUserInput: RegisterUserInput!): RegisterUserPayload
+  registerUser(registerUserInput: RegisterUserInput!): RegisterUserPayload!
 }

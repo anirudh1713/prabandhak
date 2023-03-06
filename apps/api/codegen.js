@@ -15,11 +15,26 @@ module.exports = {
             content: '/* eslint-disable */',
           },
         },
+        {
+          add: {
+            content: "import * as E from '@/lib/errors';",
+          },
+        },
+        {
+          add: {
+            content: "import * as UserError from '@/modules/user/errors';",
+          },
+        },
       ],
       config: {
         typesPrefix: 'GQL',
         useIndexSignature: true,
         useImplementingTypes: true,
+        mappers: {
+          InvalidUserInputError: 'E.WrappedError<E.InvalidUserInputError>',
+          UserAlreadyExistsError: 'E.WrappedError<UserError.UserAlreadyExistError>',
+          UserNotFoundError: 'E.WrappedError<UserError.UserNotFoundError>',
+        }
       },
     },
   },
